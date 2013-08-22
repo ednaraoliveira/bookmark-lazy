@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/template/main.xhtml">
+
+	<ui:define name="body">
+
+		<h:form id="form">
+
+			<p:growl id="growl" showDetail="true" />
+
+			<p:dataTable id="carsTable" var="bean"
+				value="#{bookmarkListMB.resultList}" >
+
+				<p:ajax event="rowToggle" listener="#{bookmarkListMB.onSelectedBookmark}" />  
+
+				<p:column style="width:2%">
+					<p:rowToggler />
+				</p:column>
+				
+				<p:column style="width:49%">
+					<f:facet name="header">             Model           </f:facet>
+					<h:outputText value="#{bean.description}" />
+				</p:column>
+
+				<p:column style="width:49%">
+					<f:facet name="header">       Year   </f:facet>
+					<h:outputText value="#{bean.id}" />
+				</p:column>
+
+				<p:rowExpansion>
+
+					<p:dataTable id="authorTable" var="author" value="#{bean.author}">
+						<p:column style="width:100%">
+							<h:outputText value="Criatura:" />
+							<h:outputText id="model" value="#{author.name}" />
+							
+						</p:column>
+					</p:dataTable>
+				</p:rowExpansion>
+
+			</p:dataTable>
+
+			<p:dialog header="Car Detail" widgetVar="carDialog" resizable="false"
+				showEffect="explode" hideEffect="explode">
+
+				<h:panelGrid id="display" columns="2" cellpadding="4">
+
+
+					<h:outputText value="Model:" />
+					<h:outputText id="select" value="#{bookmarkListMB.selection[bean.id]}" />
+
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
